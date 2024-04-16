@@ -1,0 +1,14 @@
+.autocomplete {
+    display: flex; flex-flow: row nowrap; justify-content: space-aroun; align-items: center;
+    height: 40px;
+    animation: none; 
+    gap: 15px;
+}
+
+.autocomple:hover {
+    background-color: gray;
+}
+
+.autocomplete img {
+    height: 40px;
+}
