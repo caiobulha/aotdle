@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import img from "../src/assets/a.jpg"
 import "./App.css"
 import escudo from "../src/assets/escudo.jpg"
-import Character from './components/Character.tsx';
+import Character from './components/Character';
 import Lifebar from './components/Lifebar.tsx';
 import AutoComplete from './components/AutoComplete.tsx';
 
@@ -14,6 +14,7 @@ function App() {
   const [characterName, setCharacterName] = useState<string>('')
   const [lives, setLives] = useState<number>(7)
   const [hints, setHints] = useState<ReactElement[]>([])
+  const [ controlArray, setControlArray ] = useState<string[]>([])
 
   function getRandomIntInclusive(min, max) {
     const minCeiled = Math.ceil(min);
@@ -21,42 +22,38 @@ function App() {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
   }
 
-  //Setando o personagem
-  useEffect(() => {
-    fetch("`https://api.attackontitanapi.com/characters/1,2,3,4,5,8,10,12,51,57,74,66,86,87,88,89,90,91,92,82,95,96,98,97,98,101,110,123,124,139,176,160,188,184,183,182`").then(res => res.json().then(data => {
-      setCharacter(data[getRandomIntInclusive(0, data.length - 1)])
-      setCharacterName(data[getRandomIntInclusive(0, data.length - 1)].name)
-    }))
-  }, [])
-
   const makeGuess = () => {
     if (characterName.includes(inputValue)) {
       console.log("acertoiu")
     }
   }
 
-  const filterCharacters = (guess: string) => {
-    if(guess.length < 3) {
-      return
+  const clearInput = (guess: string) => {
+    var input =  document.querySelector(".inputt")
+    if(input) {
+      input.textContent = ""
     }
-    var arr: ReactElement[] = []
     setHints([])
-    characters.forEach(c => {
-      for(let i=0; i < c.name.length; i++) {
-        if(guess[i] === c.name[i]) {
-          !arr.includes(<AutoComplete name={c.name} image={c.img}/>) && arr.push(<AutoComplete name={c.name} image={c.img}/>)
-        }
-      }
-    })
-    setHints(arr)
+  }
+
+  const filterCharacters = async (guess: string) => {
+    if(guess.length < 3) {
+      clearInput(guess)
+      return
+    } 
+
+    
+    
   }
 
   //Pegando todos para fazer o auto-complete
   useEffect(() => {
     var personas: any[] = []
-    fetch(`https://api.attackontitanapi.com/characters/1,2,3,4,5,8,10,12,51,57,74,66,86,87,88,89,90,91,92,82,95,96,98,97,98,101,110,123,124,139,176,160,188,184,183,182`).then(res => res.json().then(data => {
+    fetch(`https://api.attackontitanapi.com/characters/1,2,3,4,5,8,10,12,51,57,74,66,86,87,88,89,90,91,92,82,95,96,97,98,101,110,123,124,139,176,160,188,184,183,182`).then(res => res.json().then(data => {
       data.forEach((element: any) => {
         personas.push(element)
+        setCharacter(data[getRandomIntInclusive(0, data.length - 1)])
+        setCharacterName(data[getRandomIntInclusive(0, data.length - 1)].name)
       });
     }))
     setCharacters(personas)
