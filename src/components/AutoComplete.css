@@ -12,3 +12,10 @@
 .autocomplete img {
     height: 40px;
 }
+
+.autocomplete div {
+    height: 100%;
+    width: 50px;
+    background-color: red;
+    display: flex; flex-flow: row nowrap; justify-content: center; align-items: center;
+}
