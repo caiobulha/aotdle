@@ -1,21 +1,20 @@
 .autocomplete {
-    display: flex; flex-flow: row nowrap; justify-content: space-aroun; align-items: center;
-    height: 40px;
+    display: flex; flex-flow: row nowrap; align-items: center;
+    height: 50px;
     animation: none; 
-    gap: 15px;
+    cursor: pointer;
 }
 
 .autocomple:hover {
-    background-color: gray;
+    background-color: red;
 }
 
 .autocomplete img {
-    height: 40px;
+    height: 45px;
+    margin-left: 20px;
 }
 
-.autocomplete div {
-    height: 100%;
-    width: 50px;
-    background-color: red;
-    display: flex; flex-flow: row nowrap; justify-content: center; align-items: center;
+.autocomplete p {
+    margin-left: 20px;
+    font-size: 1.5em;
 }

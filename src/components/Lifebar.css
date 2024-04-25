@@ -1,5 +1,5 @@
 .lifebar {
-    width: 50%;
+    width: 70%;
     background-color: red;
     height: 60px;
     position: relative;
@@ -11,7 +11,6 @@
     display: flex; flex-flow: row nowrap; justify-content: center; align-items: center;
     color: white;
     font-size: 2em;
-    animation: neon2 1.5 ease-in-out infinite alternate;
 }
 
 .lifebar p {
@@ -21,28 +20,11 @@
     top: 20%; left: 50%;
 }
 
-.lives {
-    animation: neon1 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes neon1 {
-    from {
-      text-shadow: 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #fff, 0 0 45px #ff1177,
-        0 0 70px #ff1177, 0 0 80px #ff1177, 0 0 100px #ff1177, 0 0 150px #ff1177;
-    }
-    to {
-      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff1177,
-        0 0 35px #ff1177, 0 0 40px #ff1177, 0 0 50px #ff1177, 0 0 75px #ff1177;
-    }
-}
-
-@keyframes neon2 {
-    from {
-      box-shadow: 0 0 15px #fff, 0 0 25px #fff, 0 0 35px #fff, 0 0 45px rgb(0, 198, 0),
-        0 0 70px rgb(0, 198, 0), 0 0 80px rgb(0, 198, 0), 0 0 100px rgb(0, 198, 0), 0 0 150px rgb(0, 198, 0);
-    }
-    to {
-      box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px rgb(0, 198, 0),
-        0 0 35px rgb(0, 198, 0), 0 0 40px rgb(0, 198, 0), 0 0 50px rgb(0, 198, 0), 0 0 75px rgb(0, 198, 0);
-    }
+@keyframes glow {
+  0% {
+      box-shadow: 0 0 20px 10px #4CAF50;
   }
+  100% {
+      box-shadow: 0 0 30px 15px #4CAF50;
+  }
+}
