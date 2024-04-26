@@ -1,0 +1,21 @@
+.whiteSquare {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 80%;
+    width: 33%;
+    background-color: rgb(216, 219, 219);
+    z-index: 3455;
+    border-radius: 15px;
+    display: flex; flex-flow: column nowrap; align-items: center; gap: 20px;
+}
+
+.mikasa {
+    width: 30%;
+    margin-top: 20px;
+}
+
+.whiteSquare h1 {
+    margin-top: 20px;
+}

@@ -1,3 +1,23 @@
 .guessRow {
-    width: 90%;
+    width: 40%;
+    height: 75px;
+    display: flex; flex-flow: row nowrap; justify-content: space-around; align-items: center;
 }
+
+.guessRow div {
+    border: 2px solid black;
+    height: 90%;
+    width: 80px;
+    display: flex;
+    flex-flow: column nowrap; justify-content: center; align-items: center; gap: 5px;
+    border-radius: 5px;
+}
+
+.guessRow img {
+    height: 100%;
+    width: 80px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+

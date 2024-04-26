@@ -11,7 +11,6 @@ export interface Character {
         family: string;
         members: string[];
     }[];
-    birthplace: string;
     residence: string;
     status: string;
     occupation: string;

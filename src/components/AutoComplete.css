@@ -3,10 +3,11 @@
     height: 50px;
     animation: none; 
     cursor: pointer;
+    transition: .3s ease-in-out;
 }
 
-.autocomple:hover {
-    background-color: red;
+.autocomplete:hover {
+    background-color: rgba(128, 128, 128, 0.389);
 }
 
 .autocomplete img {
