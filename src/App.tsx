@@ -24,6 +24,7 @@ function App() {
   const [lose, setLose] = useState<boolean>(false);
   const [won, setWon] = useState<boolean>(false);
   const [lost, setLost] = useState<boolean>(false);
+  const [actualHint, setActualHint] = useState<number>()
 
   const input: any = useRef()
 
@@ -61,6 +62,22 @@ function App() {
     if(event.key === "Enter") { 
         hints.length > 0 && makeGuess(hints[0].props.name)
     }
+
+    if(event.key === "ArrowUp") {
+      if(actualHint === 0) {
+        return
+      } else {
+        actualHint && setActualHint(actualHint - 1)
+      }
+    }
+
+    if(event.key === "ArrowDown") {
+      if(actualHint === 10) {
+        return
+      } else {
+        actualHint && setActualHint(actualHint + 1)
+      }
+    }
   }
 
   const clearInput = () => {
@@ -91,9 +108,10 @@ function App() {
 
     filteredCharacters.forEach(el => {
         namesArr.push(el.name)
-        hintsArr.push(<AutoComplete name={el.name} onClickFunction={() => {
-          makeGuess(el.name)
-        }}/>)
+        hintsArr.push({
+          "name": el.name,
+          "onClickFunction": () => makeGuess(el.name)
+        })
     })
 
     filteredCharacters = characters.filter((el) => {
@@ -112,7 +130,6 @@ function App() {
     setHints(hintsArr)
   }
 
-  
   useEffect(() => {
     var personas: any[] = []
     var dinamicCharactersObjectVariable = {}
@@ -135,16 +152,15 @@ function App() {
     setDinamicCharactersObject(dinamicCharactersObjectVariable)
   }, [])
 
-  useEffect(() => {
-    console.log(store)
-  }, [store])
-
   return (
     <div className="App" onKeyPress={handleKeyDown}>
       {characters.length > 30 && 
         <>
         <div className="absolute">{isExploding && <ConfettiExplosion particleSize={15} particleCount={400}/>}</div>
-        {(won || lost) && <Result won={won} lost={lost}/>}
+        {(won || lost) && <Result won={won} lost={lost} closeFunction={() => {
+          setWon(false)
+          setLost(false)
+        }}/>}
         <div className="game" style={{backgroundImage: `url(${img})`}}>
         <div className="header">
           <img src={escudo} className='img' alt='algm me ajuda pfv'/>

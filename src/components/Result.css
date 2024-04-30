@@ -19,3 +19,10 @@
 .whiteSquare h1 {
     margin-top: 20px;
 }
+
+.absolute {
+    position: absolute;
+    top: 0;
+    margin: 15px;
+    right: 0;
+}
