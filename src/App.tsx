@@ -13,15 +13,12 @@ import Guess from './components/Guess.tsx';
 import Result from './components/Result.tsx';
 
 function App() {
-  const [inputValue, setInputValue] = useState<string>('')
   const [guesses, setGuesses] = useState<any[]>([])
   const [characters, setCharacters] = useState<Character[]>([])
-  const [guess, setGuess] = useState<Character>()
   const [lives, setLives] = useState<number>(10)
   const [hints, setHints] = useState<any[]>([])
   const [isExploding, setIsExploding] = useState<boolean>(false)
   const [dinamicCharactersObject, setDinamicCharactersObject] = useState<any>()
-  const [lose, setLose] = useState<boolean>(false);
   const [won, setWon] = useState<boolean>(false);
   const [lost, setLost] = useState<boolean>(false);
   const [actualHint, setActualHint] = useState<number>()
@@ -59,6 +56,9 @@ function App() {
   }
 
   function handleKeyDown(event) {
+    if(event.key === "ArrowUp" || event.key === "ArrowDown") 
+       event.preventDefault();
+    
     if(event.key === "Enter") { 
         hints.length > 0 && makeGuess(hints[0].props.name)
     }
@@ -73,7 +73,7 @@ function App() {
 
     if(event.key === "ArrowDown") {
       if(actualHint === 10) {
-        return
+        setActualHint(0)
       } else {
         actualHint && setActualHint(actualHint + 1)
       }
@@ -122,9 +122,10 @@ function App() {
     })
 
     filteredCharacters.forEach((el) => {
-        hintsArr.push(<AutoComplete name={el.name} onClickFunction={() => {
-          makeGuess(el.name)
-        }}/>)
+        hintsArr.push({
+          "name": el.name,
+          "onClickFunction": () => makeGuess(el.name)
+        })
     })
 
     setHints(hintsArr)
@@ -153,7 +154,7 @@ function App() {
   }, [])
 
   return (
-    <div className="App" onKeyPress={handleKeyDown}>
+    <div className="App">
       {characters.length > 30 && 
         <>
         <div className="absolute">{isExploding && <ConfettiExplosion particleSize={15} particleCount={400}/>}</div>
@@ -169,13 +170,14 @@ function App() {
         <div className='guessWrapper'>
           <div className="inputWrapper">
             <input type="text" placeholder='try mikasa...' style={{backgroundImage: `url(${Lupa})`}} ref={input} onChange={(e) => {
-              setInputValue(e.target.value)
               filterCharacters(e.target.value)
             }
-            }/>
+            }  onKeyPress={(e) => handleKeyDown(e)}/>
             {hints.length > 0 && 
             <div className='hints'>
-              {hints}
+              {hints.map((el, i) => (
+                <AutoComplete isSelected={actualHint === i} name={el.name} onClickFunction={() => makeGuess(el.name)}/>
+              ))}
             </div>
             }
           </div>
