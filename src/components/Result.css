@@ -1,28 +1,29 @@
 .whiteSquare {
+    display: flex;
+    justify-content: center;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 80%;
-    width: 33%;
-    background-color: rgb(216, 219, 219);
-    z-index: 3455;
+    align-items: center;
+    background-color: rgba(216, 219, 219, 0.95);
     border-radius: 15px;
+    transform: translate(110%, 30%);
+    z-index: 9876;
     display: flex; flex-flow: column nowrap; align-items: center; gap: 20px;
+    height: 600px;
+    width: 500px;
 }
 
 .mikasa {
-    width: 30%;
-    margin-top: 20px;
+    width: 20%;
 }
 
-.whiteSquare h1 {
-    margin-top: 20px;
+.whiteSquare img {
+    width: 25%;
 }
 
-.absolute {
+.closeBtn {
     position: absolute;
     top: 0;
-    margin: 15px;
     right: 0;
+    margin: 15px;
+    cursor: pointer;
 }

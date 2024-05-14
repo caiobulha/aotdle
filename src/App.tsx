@@ -21,7 +21,8 @@ function App() {
   const [dinamicCharactersObject, setDinamicCharactersObject] = useState<any>()
   const [won, setWon] = useState<boolean>(false);
   const [lost, setLost] = useState<boolean>(false);
-  const [actualHint, setActualHint] = useState<number>()
+  const [actualHint, setActualHint] = useState<number>(0)
+  const [hintsBlackList, setHintsBlackList] = useState<string[]>([])
 
   const input: any = useRef()
 
@@ -34,48 +35,53 @@ function App() {
   }
 
   const makeGuess = (name: string) => {
+    hintsBlackList.push(name)
     if (store?.name === name) {
       clearInput()
       setIsExploding(true)
       setWon(true)
       setTimeout(() => {
         setIsExploding(false)
-      }, 2000)
+      }, 3000)
       return
     }
 
     var character: Character = dinamicCharactersObject[name]
-    setGuesses([...guesses, <Guess character={character}/>])
+    setGuesses([...guesses, <Guess character={character} species={character.species}/>])
     setLives(lives - 1)
 
-    if(lives === 0) {
+    if(lives === 1) {
       setLost(true)
     } 
 
     clearInput()
   }
 
-  function handleKeyDown(event) {
-    if(event.key === "ArrowUp" || event.key === "ArrowDown") 
-       event.preventDefault();
-    
+  async function handleKeyDown(event) {    
     if(event.key === "Enter") { 
-        hints.length > 0 && makeGuess(hints[0].props.name)
+        if(hints.length > 0) {
+          makeGuess(hints[actualHint].name)
+          setActualHint(0)
+        }
+    }
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault()
     }
 
     if(event.key === "ArrowUp") {
       if(actualHint === 0) {
         return
       } else {
-        actualHint && setActualHint(actualHint - 1)
+        setActualHint(actualHint - 1)
       }
     }
 
     if(event.key === "ArrowDown") {
-      if(actualHint === 10) {
+      if(actualHint === hints.length - 1) {
         setActualHint(0)
       } else {
-        actualHint && setActualHint(actualHint + 1)
+        setActualHint(actualHint + 1)
       }
     }
   }
@@ -96,9 +102,12 @@ function App() {
     var alreadyUsedNames: string[] = []
     
     var filteredCharacters = characters.filter((el) => {
-      if(!alreadyUsedNames.includes(el.name)){
-        alreadyUsedNames.push(el.name)
-        return el.name.toLowerCase().startsWith(guess.toLowerCase())
+      if(!hintsBlackList.includes(el.name)) { 
+        if(!alreadyUsedNames.includes(el.name)){
+          alreadyUsedNames.push(el.name)
+          return el.name.toLowerCase().startsWith(guess.toLowerCase())
+        }
+        return null
       }
       return null
     })
@@ -115,8 +124,11 @@ function App() {
     })
 
     filteredCharacters = characters.filter((el) => {
-      if(!namesArr.includes(el.name)) {
-        return el.name.toLowerCase().includes(guess.toLowerCase())
+      if(!hintsBlackList.includes(el.name)) {
+        if(!namesArr.includes(el.name)) {
+          return el.name.toLowerCase().includes(guess.toLowerCase())
+        }
+        return null
       }
       return null
     })
@@ -172,7 +184,7 @@ function App() {
             <input type="text" placeholder='try mikasa...' style={{backgroundImage: `url(${Lupa})`}} ref={input} onChange={(e) => {
               filterCharacters(e.target.value)
             }
-            }  onKeyPress={(e) => handleKeyDown(e)}/>
+            }  onKeyDown={(e) => handleKeyDown(e)}/>
             {hints.length > 0 && 
             <div className='hints'>
               {hints.map((el, i) => (
